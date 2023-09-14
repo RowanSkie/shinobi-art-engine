@@ -62,14 +62,25 @@ const askGPT = async (item) => {
 const updateInfoWithAI = async () => {
   await asyncForEach(data, async (item) => {
     if (item.name == `${namePrefix} #${item.edition}` || item.description == description) {
-      let response = await askGPT(item);
-      item.name = `${namePrefix} #${item.edition} - ${response.name}`;
-      item.description = response.description;
+      console.log(`Updating #${item.edition}`);
+      let triesCounter = 0;
+      while (triesCounter < 3) {
+        try {
+          let response = await askGPT(item);
+          item.name = `${namePrefix} #${item.edition} - ${response.name}`;
+          item.description = response.description;
+          fs.writeFileSync(
+            `${basePath}/build/json/${item.edition}.json`,
+            JSON.stringify(item, null, 2)
+          );
+          writeMetaData(JSON.stringify(data, null, 2));
+          break;
+        } catch (err) {
+          console.log(err);
+        }
+        triesCounter++;
+      }
     }
-    fs.writeFileSync(
-      `${basePath}/build/json/${item.edition}.json`,
-      JSON.stringify(item, null, 2)
-    );
   });
 
   writeMetaData(JSON.stringify(data, null, 2));
