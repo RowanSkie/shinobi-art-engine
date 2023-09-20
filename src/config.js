@@ -8,15 +8,15 @@ import { NETWORK } from '../constants/network.js';
 const network = NETWORK.bch;
 
 // General collection metadata.
-const collectionName = "Shinobi"; // Name of your collection.
-const collectionDescription = "Elite digital ninjas, guardians of BCH." // Description of your collection.
-const namePrefix = "Shinobi"; // Prefix for the NFT name.
-const description = "Elite digital ninja, guardian of BCH."; // NFT description.
+const collectionName = "Starswords"; // Name of your collection.
+const collectionDescription = "Obtain your legendary starsword and become part of the Starsword Association." // Description of your collection.
+const namePrefix = "Starsword"; // Prefix for the NFT name.
+const description = "A starsword built for a Starsword Association member."; // NFT description.
 const baseUri = process.env.SHINOBI_BASE_URI || "ipfs://NewUriToReplace/images";
 const baseIconUri = process.env.SHINOBI_BASE_ICON_URI || "ipfs://NewUriToReplace/icons";
 
 // Background for your collection. This is used for OpenAI integration.
-const collectionBackground = `The Shinobi are elite digital ninjas, guardians of the BCH Blockchain and its Cashtokens. Entrusted by the mysterious Satoshi, they blend cryptographic arts with ancient martial traditions, ensuring the integrity and balance of the decentralized world.`
+const collectionBackground = `The Starsword Association uses starswords; swords powered by magical focusing crystals that allows each member to form a unique bond with their sword and serve together with fellow starswords. Starsword Associationn members could also turn their starswords for more crystals.`
 
 // BCMR specific metadata.
 const bcmrMetadata = {
@@ -44,7 +44,7 @@ const bcmrMetadata = {
 // https://bitcash.dev/guide/cashtokens.html
 const bchMetadata = {
   category: "YOUR_GENESIS_UNSPENT_TX",
-  symbol: "SHINOBI",
+  symbol: "SSWORD",
   uris: {
     icon: "",
     image: "",
