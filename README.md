@@ -119,7 +119,7 @@ If you need a layers to have a different opacity then you can add the `opacity: 
 
 If you want to have a layer _ignored_ in the DNA uniqueness check, you can set `bypassDNA: true` in the `options` object. This has the effect of making sure the rest of the traits are unique while not considering the `Background` Layers as traits, for example. The layers _are_ included in the final image.
 
-To use a different metadata attribute name you can add the `displayName: "Awesome Eye Color"` to the `options` object. All options are optional and can be addes on the same layer if you want to.
+To use a different metadata attribute name you can add the `displayName: "Awesome Eye Color"` to the `options` object. All options are optional and can be added on the same layer if you want to.
 
 Here is an example on how you can play around with both filter fields:
 
@@ -263,7 +263,7 @@ npm run openai
 
 ### Generate a preview image
 
-Create a preview image collage of your collection, run:
+Create a preview image collage of your collection, just build your collection, then run:
 
 ```sh
 npm run preview
@@ -305,7 +305,7 @@ const gif = {
 
 ### Printing rarity data (Experimental feature)
 
-To see the percentages of each attribute across your collection, run:
+To see the percentages of each attribute across your collection and write rarity data to `build/json/_rarity.json`, run:
 
 ```sh
 npm run rarity
@@ -313,32 +313,35 @@ npm run rarity
 
 The output will look something like this:
 
-```sh
-Trait type: Weapons
+```json
 {
-  trait: 'Bow and Arrow',
-  weight: '1',
-  occurrence: '7 in 25 editions (28.00 %)'
-}
-{
-  trait: 'Double Sword',
-  weight: '1',
-  occurrence: '3 in 25 editions (12.00 %)'
-}
-{
-  trait: 'Scythe',
-  weight: '1',
-  occurrence: '4 in 25 editions (16.00 %)'
-}
-{
-  trait: 'Staff',
-  weight: '1',
-  occurrence: '7 in 25 editions (28.00 %)'
-}
-{
-  trait: 'Sword',
-  weight: '1',
-  occurrence: '4 in 25 editions (16.00 %)'
+  "Weapons": [
+    {
+      "trait": "Bow and Arrow",
+      "weight": "1",
+      "occurrence": "1 in 11 editions (9.09 %)"
+    },
+    {
+      "trait": "Double Sword",
+      "weight": "1",
+      "occurrence": "4 in 11 editions (36.36 %)"
+    },
+    {
+      "trait": "Scythe",
+      "weight": "1",
+      "occurrence": "3 in 11 editions (27.27 %)"
+    },
+    {
+      "trait": "Staff",
+      "weight": "1",
+      "occurrence": "1 in 11 editions (9.09 %)"
+    },
+    {
+      "trait": "Sword",
+      "weight": "1",
+      "occurrence": "2 in 11 editions (18.18 %)"
+    }
+  ]
 }
 ```
 
