@@ -40,7 +40,7 @@ const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = format.smoothing;
 const iconCanvas = createCanvas(iconFormat.width, iconFormat.height);
 const iconCtx = iconCanvas.getContext("2d");
-const DNA_DELIMITER = "-";
+const DNA_DELIMITER = "\n";
 var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
@@ -62,13 +62,11 @@ const buildSetup = () => {
 
 const getRarityWeight = (_str) => {
   let nameWithoutExtension = _str.slice(0, -4);
-  var nameWithoutWeight = Number(
-    nameWithoutExtension.split(rarityDelimiter).pop()
-  );
-  if (isNaN(nameWithoutWeight)) {
-    nameWithoutWeight = 1;
+  var rarityWeight = Number(nameWithoutExtension.split(rarityDelimiter).pop());
+  if (isNaN(rarityWeight)) {
+    rarityWeight = 1;
   }
-  return nameWithoutWeight;
+  return rarityWeight;
 };
 
 const cleanDna = (_str) => {
@@ -88,8 +86,8 @@ const getElements = (path) => {
     .readdirSync(path)
     .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
     .map((i, index) => {
-      if (i.includes("-")) {
-        throw new Error(`layer name can not contain dashes, please fix: ${i}`);
+      if (i.includes(DNA_DELIMITER)) {
+        throw new Error(`layer name can not contain ${DNA_DELIMITER}, please fix: ${i}`);
       }
       return {
         id: index,
@@ -192,15 +190,10 @@ const addMetadata = (_dna, _edition) => {
   }
   if (network == NETWORK.sol) {
     tempMetadata = {
-      //Added metadata for solana
       name: tempMetadata.name,
       symbol: solanaMetadata.symbol,
       description: tempMetadata.description,
-      //Added metadata for solana
-      seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
       image: `${_edition}.png`,
-      //Added metadata for solana
-      external_url: solanaMetadata.external_url,
       edition: _edition,
       ...extraMetadata,
       attributes: tempMetadata.attributes,
@@ -210,9 +203,7 @@ const addMetadata = (_dna, _edition) => {
             uri: `${_edition}.png`,
             type: "image/png",
           },
-        ],
-        category: "image",
-        creators: solanaMetadata.creators,
+        ]
       },
     };
   }
@@ -437,11 +428,15 @@ const startCreating = async () => {
   let editionCount = 1;
   let failedCount = 0;
   let abstractedIndexes = [];
-  for (
-    let i = network == NETWORK.sol ? 0 : 1;
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
-    i++
-  ) {
+  let loopStart = 1;
+  let loopLength = layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+
+  if (network == NETWORK.sol) {
+    loopStart = 0;
+    loopLength = loopLength - 1;
+  }
+
+  for (let i = loopStart; i <= loopLength; i++) {
     abstractedIndexes.push(i);
   }
   if (shuffleLayerConfigurations) {
